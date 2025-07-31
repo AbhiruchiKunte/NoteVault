@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./public/NoteVault Logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NoteVault</title>
+
+    <style>
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0A0A0A; /* Remains your darkest background from the theme */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Outfit', sans-serif; /* Using your heading font */
+        color: #0bbb7b; /* Changed to your theme's 'success' green color */
+        font-size: 2.5rem;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+      }
+      #preloader.hidden {
+        opacity: 0;
+        pointer-events: none; /* Allows clicks through once hidden */
+      }
+      /* Simple pulse animation for the loading text */
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: .5;
+        }
+      }
+      .animate-pulse {
+        animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preloader">
+      <span class="animate-pulse">NoteVault Loading...</span>
+    </div>
+
+    <div id="root"></div>
+
+    <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const rootElement = document.getElementById('root');
+        const preloader = document.getElementById('preloader');
+
+        // This observer waits until the React app has rendered its initial content
+        const observer = new MutationObserver(() => {
+          if (rootElement.children.length > 0) {
+            preloader.classList.add('hidden');
+            observer.disconnect(); // Stop observing
+            // Optional: Remove preloader from DOM after transition finishes
+            setTimeout(() => {
+              preloader.remove();
+            }, 600); // Matches CSS transition duration + a small delay
+          }
+        });
+
+        // Start observing the #root element for changes in its children
+        observer.observe(rootElement, { childList: true });
+      });
+    </script>
+  </body>
+</html>
