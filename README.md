@@ -20,8 +20,6 @@ NoteVault is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) applicat
 
 🔗 https://mern-notevault.onrender.com/
 
----
-
 ## 🤝 Contact
 
 Feel free to connect with me if you have any questions or feedback!
